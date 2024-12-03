@@ -1,3 +1,4 @@
+#表示项目中的头文件只会被包含一次
 include_guard(GLOBAL)
 
 include_directories(. third_party third_party/spdlog/include third_party/boost third_party/mbedtls/include)

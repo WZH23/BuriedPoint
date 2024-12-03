@@ -12,6 +12,7 @@ option(BUILD_BURIED_TEST "build unittest" OFF)
 
 option(BUILD_BURIED_FOR_MT "build for /MT" OFF)
 
+#MSVC专用的配置，表示启动多线程编译，如果是linux下需要注释掉
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
 
 if(BUILD_BURIED_FOR_MT)

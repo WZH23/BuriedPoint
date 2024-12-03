@@ -18,6 +18,7 @@ struct BuriedConfig {
   const char* custom_data;
 };
 
+//前置声明只能作为指针或引用，不能定义类的对象，自然也就不能调用对象中的方法了。
 BURIED_EXPORT Buried* Buried_Create(const char* work_dir);
 
 BURIED_EXPORT void Buried_Destroy(Buried* buried);
