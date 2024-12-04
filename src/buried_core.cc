@@ -14,15 +14,25 @@ void Buried::InitWorkPath_(const std::string& work_dir) {
     std::filesystem::create_directories(_work_dir);
   }
 
-  work_path_ = _work_dir / "buried";
+  /*
+    windows:
+    传参:D:\\projects\\BuriedPoint
+    结果:D:\\projects\\BuriedPoint\\buried
+    linux
+    传参:/usr/lib
+    结果:/usr/lib/buried 
+   */
+  work_path_ = _work_dir / "buried";//文件路径的拼接
   if (!std::filesystem::exists(work_path_)) {
     std::filesystem::create_directories(work_path_);
   }
 }
 
 void Buried::InitLogger_() {
+  //sinks:控制日志写入的目的地，写入控制台
   auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
 
+  //写入到文件
   std::filesystem::path _log_dir = work_path_ / "buried.log";
   auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
       _log_dir.string(), true);
@@ -31,6 +41,12 @@ void Buried::InitLogger_() {
       new spdlog::logger("buried_sink", {console_sink, file_sink}));
 
   // ref: https://github.com/gabime/spdlog/wiki/3.-Custom-formatting
+  //%c:Date and time representation 日期和时间表示
+  //%s:Basename of the source file  源文件的名称
+  //%#:Source line 日志在文件中的行号
+  //%l:The log level of the message 消息的日志级别
+  //%v:The actual text to log
+  //[]
   logger_->set_pattern("[%c] [%s:%#] [%l] %v");
   logger_->set_level(spdlog::level::trace);
 }
@@ -43,6 +59,7 @@ Buried::Buried(const std::string& work_dir) {
   InitLogger_();
 
   SPDLOG_LOGGER_INFO(Logger(), "Buried init success");
+  //SPDLOG_LOGGER_ERROR(Logger(), "err");
 }
 
 Buried::~Buried() {}
